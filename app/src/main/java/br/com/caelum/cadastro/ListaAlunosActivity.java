@@ -11,17 +11,28 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import br.com.caelum.cadastro.dao.AlunoDAO;
+import br.com.caelum.cadastro.modelo.Aluno;
+
 public class ListaAlunosActivity extends AppCompatActivity {
 
     private ListView listaAlunos;
+
+    private List<Aluno> alunos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
-        String[] alunos = {"Anderson", "Filipe", "Guilherme", "Maria", "Fatima", "Sandra"};
+        //String[] alunos = {"Anderson", "Filipe", "Smith", "Guilherme", "Maria", "Fatima", "Sandra"};
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, alunos);
+        AlunoDAO dao = new AlunoDAO(this);
+        alunos = dao.getLista();
+        dao.close();
+
+        final ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
 
         this.listaAlunos = (ListView) findViewById(R.id.lista_alunos);
 
@@ -49,8 +60,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
         botaoAdicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  Toast.makeText(ListaAlunosActivity.this, "Floating button clicado", Toast.LENGTH_LONG).show();
+                // Intenção de chamar outra activity
                 Intent intent = new Intent(ListaAlunosActivity.this, FormularioActivity.class);
+                // Dar um start na Activity com a intenção.
                 startActivity(intent);
 
             }
