@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 public class FormularioActivity extends AppCompatActivity {
 
+    private FormularioHelper helper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,8 @@ public class FormularioActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        this.helper = new FormularioHelper(this);
     }
     /**Explicação do professor
     @Override
