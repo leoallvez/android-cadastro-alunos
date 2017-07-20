@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import br.com.caelum.cadastro.dao.AlunoDAO;
+import br.com.caelum.cadastro.modelo.Aluno;
+
 public class FormularioActivity extends AppCompatActivity {
 
     private FormularioHelper helper;
@@ -47,16 +50,27 @@ public class FormularioActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_formulario, menu);
         return super.onCreateOptionsMenu(menu);
     }
-    /**Explicação do professor
+    /**Explicação do professor*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Definindo qual intem do menu foi selecionado.
         if(item.getItemId() == R.id.menu_formulario_ok) {
+            // Instância do alunoDAO
+            AlunoDAO dao = new AlunoDAO(this);
+
+            Aluno aluno = helper.pegaAlunoDoFormulario();
+            //Toast.makeText(this, "Nome do aluno: "+aluno.getNome(), Toast.LENGTH_SHORT).show();
+
+            dao.insere(aluno);
+            // Fechando a conexão com o banco
+            dao.close();
+            // Fechando a ativity
             finish();
             return true;
         }
         return false;
-    }*/
+    }
+    /**
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
@@ -66,5 +80,5 @@ public class FormularioActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 }
