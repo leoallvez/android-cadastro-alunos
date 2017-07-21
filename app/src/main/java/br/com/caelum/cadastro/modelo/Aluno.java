@@ -62,8 +62,7 @@ public class Aluno {
     }
 
     /** A forma que o aluno será mostrado na listagem */
-
     public String toString() {
-        return this.getId() + "-" + this.getNome();
+        return this.getId() + " - " + this.getNome();
     }
 }
