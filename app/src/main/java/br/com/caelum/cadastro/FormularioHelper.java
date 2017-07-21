@@ -38,5 +38,16 @@ public class FormularioHelper {
         return aluno;
     }
 
+    public void colocarNoFormurario(Aluno aluno) {
+        nome.setText( aluno.getNome());
+        endereco.setText(aluno.getEndereco());
+        site.setText(aluno.getSite());
+        telefone.setText(aluno.getTelefone());
+        nota.setProgress(aluno.getNota().intValue());
+
+        //Guardando aluno recebido
+        this.aluno = aluno;
+    }
+
 
 }

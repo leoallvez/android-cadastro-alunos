@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -53,10 +54,18 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         registerForContextMenu(listaAlunos);
 
-        listaAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        listaAlunos.setOnItemClickListener(new OnItemClickListener(){
 
             public void onItemClick(AdapterView<?> adapter, View view, int posicao, long id) {
-                Toast.makeText(ListaAlunosActivity.this, "Posição selecionada: "+posicao, Toast.LENGTH_LONG).show();
+                //Toast.makeText(ListaAlunosActivity.this, "Posição selecionada: "+posicao, Toast.LENGTH_LONG).show();
+                // Intent para chamar a próxima tela.
+                Intent editar = new Intent(ListaAlunosActivity.this, FormularioActivity.class);
+                //Pegar o aluno
+                Aluno aluno = (Aluno) adapter.getItemAtPosition(posicao);
+                // Associando o aluno a intent
+                editar.putExtra("aluno", aluno);
+
+                startActivity(editar);
             }
 
         });

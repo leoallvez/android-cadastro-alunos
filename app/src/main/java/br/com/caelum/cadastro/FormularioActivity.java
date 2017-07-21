@@ -1,5 +1,6 @@
 package br.com.caelum.cadastro;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,6 +33,14 @@ public class FormularioActivity extends AppCompatActivity {
         });
 
         this.helper = new FormularioHelper(this);
+
+        Intent intent = getIntent();
+        // Pega o aluno da intent que vem da tela de listagem
+        Aluno aluno = (Aluno) intent.getSerializableExtra("aluno");
+
+        if(aluno != null) {
+            helper.colocarNoFormurario(aluno);
+        }
     }
     /**Explicação do professor
     @Override
@@ -60,8 +69,14 @@ public class FormularioActivity extends AppCompatActivity {
 
             Aluno aluno = helper.pegaAlunoDoFormulario();
             //Toast.makeText(this, "Nome do aluno: "+aluno.getNome(), Toast.LENGTH_SHORT).show();
-            //Inserir aluno na base
-            dao.insere(aluno);
+
+            if(aluno.getId() == null) {
+                //Inserir aluno na base
+                dao.insere(aluno);
+            } else {
+                dao.altera(aluno);
+            }
+
             // Fechando a conexão com o banco
             dao.close();
             // Fechando a ativity
