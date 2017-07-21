@@ -19,8 +19,18 @@ import br.com.caelum.cadastro.modelo.Aluno;
 public class ListaAlunosActivity extends AppCompatActivity {
 
     private ListView listaAlunos;
-
     private List<Aluno> alunos;
+
+    private void carregarLista() {
+        AlunoDAO dao = new AlunoDAO(this);
+        List<Aluno> alunos = dao.getLista();
+        dao.close();
+
+        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
+
+        this.listaAlunos.setAdapter(adapter);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +42,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
         alunos = dao.getLista();
         dao.close();
 
-        final ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
+        //final ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
 
         this.listaAlunos = (ListView) findViewById(R.id.lista_alunos);
 
-        this.listaAlunos.setAdapter(adapter);
+        //this.listaAlunos.setAdapter(adapter);
 
         listaAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
@@ -67,5 +77,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.carregarLista();
     }
 }

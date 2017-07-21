@@ -59,15 +59,14 @@ public class AlunoDAO extends SQLiteOpenHelper {
         // getWriteDatabas() recupera a instância da tabela
         getWritableDatabase().insert(TABELA, null, values);
     }
-
+    /** Listagem de alunos. */
     public List<Aluno> getLista() {
 
         List<Aluno> alunos = new ArrayList<Aluno>();
         SQLiteDatabase db = getReadableDatabase();
-
+        // Último parametro para um array valores de buscar
         Cursor c = db.rawQuery("SELECT * FROM " + TABELA + ";", null);
 
-        
         while(c.moveToNext()) {
             Aluno aluno = new Aluno();
 
@@ -81,6 +80,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
             alunos.add(aluno);
         }
         c.close();
+
         return alunos;
     }
 }

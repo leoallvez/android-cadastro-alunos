@@ -60,7 +60,7 @@ public class FormularioActivity extends AppCompatActivity {
 
             Aluno aluno = helper.pegaAlunoDoFormulario();
             //Toast.makeText(this, "Nome do aluno: "+aluno.getNome(), Toast.LENGTH_SHORT).show();
-
+            //Inserir aluno na base
             dao.insere(aluno);
             // Fechando a conexão com o banco
             dao.close();
