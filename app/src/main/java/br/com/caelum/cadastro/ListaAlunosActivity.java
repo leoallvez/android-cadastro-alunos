@@ -1,6 +1,7 @@
 package br.com.caelum.cadastro;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -94,6 +95,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
 
         AdapterContextMenuInfo info = (AdapterContextMenuInfo)  menuInfo;
         //Final para ser possivel usar o alunoSelecionado na classe anonima.
@@ -112,6 +114,43 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        MenuItem ligar = menu.add("Ligar");
+        // Intent implicita para fazer uma ligação.
+        Intent fazerligacao = new Intent(Intent.ACTION_CALL);
+        //
+        fazerligacao.setData(Uri.parse("tel:" + alunoSelecionado.getTelefone()));
+
+        ligar.setIntent(fazerligacao);
+
+        MenuItem sms = menu.add("Enviar SMS");
+
+        Intent enviarSms = new Intent(Intent.ACTION_VIEW);
+
+        enviarSms.setData(Uri.parse("sms:" + alunoSelecionado.getTelefone()));
+        enviarSms.putExtra("sms_body", "Olá Aluno");
+
+        sms.setIntent(enviarSms);
+
+        MenuItem mapa = menu.add("Achar no mapa");
+
+        Intent abrirMapa = new Intent(Intent.ACTION_VIEW);
+        // Tirar os caracteres especiais do endereço
+        abrirMapa.setData(Uri.parse("geo:0,0?z=14&q="+ Uri.encode(alunoSelecionado.getEndereco())));
+
+        mapa.setIntent(abrirMapa);
+
+        MenuItem site = menu.add("Navegar no site");
+
+        Intent abrirSite = new Intent(Intent.ACTION_VIEW);
+
+        abrirSite.setData(Uri.parse("http://"+ alunoSelecionado.getSite()));
+
+        site.setIntent(abrirSite);
+
+
+
+
     }
 
     @Override

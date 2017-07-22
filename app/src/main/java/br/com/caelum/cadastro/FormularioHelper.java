@@ -29,6 +29,7 @@ public class FormularioHelper {
     }
 
     public Aluno pegaAlunoDoFormulario() {
+
         aluno.setNome(nome.getText().toString());
         aluno.setEndereco(endereco.getText().toString());
         aluno.setSite(site.getText().toString());
@@ -39,6 +40,7 @@ public class FormularioHelper {
     }
 
     public void colocarNoFormurario(Aluno aluno) {
+
         nome.setText( aluno.getNome());
         endereco.setText(aluno.getEndereco());
         site.setText(aluno.getSite());
