@@ -1,7 +1,13 @@
 package br.com.caelum.cadastro;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -25,6 +31,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     private ListView listaAlunos;
     private List<Aluno> alunos;
+    private Aluno alunoSelecionado;
+    private static final int REQUEST_LIGACAO = 123;
 
     private void carregarLista() {
         AlunoDAO dao = new AlunoDAO(this);
@@ -99,7 +107,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         AdapterContextMenuInfo info = (AdapterContextMenuInfo)  menuInfo;
         //Final para ser possivel usar o alunoSelecionado na classe anonima.
-        final Aluno alunoSelecionado = (Aluno) listaAlunos.getAdapter().getItem(info.position);
+        alunoSelecionado = (Aluno) listaAlunos.getAdapter().getItem(info.position);
         // Criando um item do menu.
         MenuItem excluir = menu.add("Excluir");
         // Listener do botão de excluir.
@@ -117,6 +125,21 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         MenuItem ligar = menu.add("Ligar");
         // Intent implicita para fazer uma ligação.
+        ligar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                String permissaoLiga = Manifest.permission.CALL_PHONE;
+
+                if(ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, permissaoLiga) == PackageManager.PERMISSION_GRANTED){
+                    fazerLigacao();
+                }else{
+                    // Ultimo paramentro é o request code
+                    ActivityCompat.requestPermissions(ListaAlunosActivity.this, new String[]{ permissaoLiga }, REQUEST_LIGACAO );
+                }
+                return false;
+            }
+        });
+
         Intent fazerligacao = new Intent(Intent.ACTION_CALL);
         //
         fazerligacao.setData(Uri.parse("tel:" + alunoSelecionado.getTelefone()));
@@ -147,15 +170,30 @@ public class ListaAlunosActivity extends AppCompatActivity {
         abrirSite.setData(Uri.parse("http://"+ alunoSelecionado.getSite()));
 
         site.setIntent(abrirSite);
-
-
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         this.carregarLista();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permission, int[] resultados) {
+        if(requestCode == REQUEST_LIGACAO) {
+            if(resultados[0] == PackageManager.PERMISSION_GRANTED) {
+                fazerLigacao();
+            }else{
+                //Toast.makeText("Posição selecionada: "+posicao, Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+    @SuppressWarnings({"MissingPermissions"})
+    private void fazerLigacao() {
+        Intent ligar = new Intent(Intent.ACTION_CALL);
+        ligar.setData(Uri.parse("tel:"+ alunoSelecionado.getTelefone()));
+        if(true)
+            startActivity(ligar);
     }
 }

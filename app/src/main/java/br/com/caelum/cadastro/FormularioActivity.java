@@ -64,7 +64,7 @@ public class FormularioActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Definindo qual intem do menu foi selecionado.
         if(item.getItemId() == R.id.menu_formulario_ok) {
-            // Instância do alunoDAO
+            // Instância do alunoDaAO
             AlunoDAO dao = new AlunoDAO(this);
 
             Aluno aluno = helper.pegaAlunoDoFormulario();
