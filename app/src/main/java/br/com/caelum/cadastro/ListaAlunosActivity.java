@@ -184,7 +184,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
             if(resultados[0] == PackageManager.PERMISSION_GRANTED) {
                 fazerLigacao();
             }else{
-                //Toast.makeText("Posição selecionada: "+posicao, Toast.LENGTH_LONG).show();
+                Toast.makeText(ListaAlunosActivity.this,"Não foi possivel fazer ligação ", Toast.LENGTH_LONG).show();
             }
         }
 
