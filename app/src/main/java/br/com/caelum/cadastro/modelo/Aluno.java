@@ -14,6 +14,8 @@ public class Aluno implements Serializable {
     private Double nota;
     private Long id;
     private String nome;
+    private String caminhoFoto;
+
 
     public String getEndereco() {
         return endereco;
@@ -61,6 +63,14 @@ public class Aluno implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCaminhoFoto() {
+        return caminhoFoto;
+    }
+
+    public void setCaminhoFoto(String caminhoFoto) {
+        this.caminhoFoto = caminhoFoto;
     }
 
     /** A forma que o aluno será mostrado na listagem */

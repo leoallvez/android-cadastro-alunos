@@ -45,6 +45,8 @@ public class FormularioHelper {
         aluno.setSite(site.getText().toString());
         aluno.setTelefone(telefone.getText().toString());
         aluno.setNota(Double.valueOf(nota.getProgress()));
+        // Recuperando o caminho da foto na tag da foto.
+        aluno.setCaminhoFoto((String) foto.getTag());
 
         return aluno;
     }
@@ -56,7 +58,9 @@ public class FormularioHelper {
         site.setText(aluno.getSite());
         telefone.setText(aluno.getTelefone());
         nota.setProgress(aluno.getNota().intValue());
-        //Guardando aluno recebido
+        if(aluno.getCaminhoFoto() != null) {
+            carregarImagem(aluno.getCaminhoFoto());
+        }
         this.aluno = aluno;
     }
 
@@ -68,7 +72,7 @@ public class FormularioHelper {
         // Criar um bitmap para carregar a foto na memória.
         Bitmap imagemFoto = BitmapFactory.decodeFile(localAquivoFoto);
         // Redimensionando a foto.
-        Bitmap imagemFotoReduziada = Bitmap.createScaledBitmap(imagemFoto, imagemFoto.getWidth() /**ou 400*/, 300, true);
+        Bitmap imagemFotoReduziada = Bitmap.createScaledBitmap(imagemFoto, /**imagemFoto.getWidth() ou */ 400 , 300, true);
         //Setando a foto na ImagemView.
         this.foto.setImageBitmap(imagemFotoReduziada);
         //Seta o caminho da foto na ImagemView.
