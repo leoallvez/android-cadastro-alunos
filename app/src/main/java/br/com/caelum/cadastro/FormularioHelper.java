@@ -1,6 +1,11 @@
 package br.com.caelum.cadastro;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RatingBar;
 
 import br.com.caelum.cadastro.modelo.Aluno;
@@ -11,12 +16,14 @@ import br.com.caelum.cadastro.modelo.Aluno;
 
 public class FormularioHelper {
     private Aluno aluno;
-
     private EditText nome;
     private EditText telefone;
     private EditText site;
     private RatingBar nota;
     private EditText endereco;
+
+    private ImageView foto;
+    private Button fotoButton;
 
     public FormularioHelper(FormularioActivity activity) {
         this.aluno = new Aluno();
@@ -26,6 +33,9 @@ public class FormularioHelper {
         this.site  = (EditText) activity.findViewById(R.id.formulario_site);
         this.nota = (RatingBar) activity.findViewById(R.id.formulario_nota);
         this.endereco = (EditText) activity.findViewById(R.id.formulario_endereco);
+        //Fotos
+        this.foto = (ImageView) activity.findViewById(R.id.formulario_foto);
+        this.fotoButton = (Button) activity.findViewById(R.id.formulario_foto_button);
     }
 
     public Aluno pegaAlunoDoFormulario() {
@@ -46,10 +56,25 @@ public class FormularioHelper {
         site.setText(aluno.getSite());
         telefone.setText(aluno.getTelefone());
         nota.setProgress(aluno.getNota().intValue());
-
         //Guardando aluno recebido
         this.aluno = aluno;
     }
 
+    public Button getFotoButton() {
+        return fotoButton;
+    }
 
+    public void carregarImagem(/**caminho da imagem*/String localAquivoFoto) {
+        // Criar um bitmap para carregar a foto na memória.
+        Bitmap imagemFoto = BitmapFactory.decodeFile(localAquivoFoto);
+        // Redimensionando a foto.
+        Bitmap imagemFotoReduziada = Bitmap.createScaledBitmap(imagemFoto, imagemFoto.getWidth() /**ou 400*/, 300, true);
+        //Setando a foto na ImagemView.
+        this.foto.setImageBitmap(imagemFotoReduziada);
+        //Seta o caminho da foto na ImagemView.
+        //setTag salva uma informação em qualquer view.
+        this.foto.setTag(localAquivoFoto);
+        // Ajustando a foto na altura e largura de ImagemView.
+        this.foto.setScaleType(ScaleType.FIT_XY);
+    }
 }
