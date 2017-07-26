@@ -4,6 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <item
+        android:id="@+id/menu_mapa"
+        android:icon="@drawable/ic_mapa"
+        android:title="Mapa"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_recebe_provas"
+        android:icon="@drawable/ic_receber"
+        android:title="Baixar Provas"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/menu_enviar_nota"
         android:icon="@drawable/ic_enviar"
         android:title="Enviar notas"

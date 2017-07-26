@@ -1,12 +1,9 @@
 package br.com.caelum.cadastro;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,11 +11,9 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,6 +23,8 @@ import java.util.List;
 import br.com.caelum.cadastro.adapter.ListaAlunoAdapter;
 import br.com.caelum.cadastro.dao.AlunoDAO;
 import br.com.caelum.cadastro.modelo.Aluno;
+import br.com.caelum.cadastro.support.WebClient;
+import br.com.caelum.cadastro.task.EnviaAlunosTask;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
@@ -208,18 +205,20 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_enviar_nota: {
+            case R.id.menu_enviar_nota:
+                new EnviaAlunosTask(this).execute();
+                return true;
+                /**
                 AlunoDAO dao = new AlunoDAO(this);
                 List<Aluno> alunos = dao.getLista();
                 dao.close();
 
-                String json = new AlunoConverte().toJson(alunos);
+                String json = new AlunoConverter().toJson(alunos);
                 WebClient client = new WebClient();
                 String reposta = client.post(json);
-                Toast.makeText(this, reposta, Toast.LENGTH_LONG).show();
+                Toast.makeText(this ,reposta , Toast.LENGTH_LONG).show();
                 return true;
-
-            }
+                 **/
         }
         return super.onOptionsItemSelected(item);
     }
