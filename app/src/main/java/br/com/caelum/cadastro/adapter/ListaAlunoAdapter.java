@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -27,18 +28,21 @@ public class ListaAlunoAdapter extends BaseAdapter {
         this.activity = activity;
         this.alunos = alunos;
     }
-
-    public View getView(int posicao, ViewGroup parent) {
+    @Override
+    public View getView(int posicao, View view, ViewGroup parent) {
         Aluno aluno = alunos.get(posicao);
-        View view = activity.getLayoutInflater().inflate(R.layout.item, parent, false);
+        view = activity.getLayoutInflater().inflate(R.layout.item, parent, false);
+        TextView nome = (TextView) view.findViewById(R.id.item_nome);
         Bitmap bm;
 
         if(aluno.getCaminhoFoto() != null) {
             bm = BitmapFactory.decodeFile(aluno.getCaminhoFoto());
             bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
         } else {
-           bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_no_image);
+            bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_no_image);
         }
+
+        nome.setText(aluno.getNome());
 
         ImageView foto = (ImageView) view.findViewById(R.id.item_foto);
         foto.setImageBitmap(bm);

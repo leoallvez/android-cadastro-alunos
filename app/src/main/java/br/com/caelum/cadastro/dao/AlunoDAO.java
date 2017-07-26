@@ -16,7 +16,7 @@ import br.com.caelum.cadastro.modelo.Aluno;
  */
 
 public class AlunoDAO extends SQLiteOpenHelper {
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 1;
     private static final String TABELA = "Alunos";
     private static final String DATABASE = "CadastroCaelum";
 
@@ -35,18 +35,19 @@ public class AlunoDAO extends SQLiteOpenHelper {
                 + " telefone TEXT, "
                 + " endereco TEXT, "
                 + " site TEXT, "
-                + " nota REAL);";
+                + " nota REAL, "
+                + " caminhoFoto TEXT);";
         // Rodando o script acima;
         database.execSQL(ddl);
     }
     /** Atualizando a base */
     public void onUpgrade(SQLiteDatabase database, int versaoAntiga, int versaoNova) {
-        //String sql = "DROP TABLE IF EXIST " + TABELA;
-        String sql = "ALTER TABLE " + TABELA + " ADD COLUMN caminhoFoto TEXT;";
+        String sql = "DROP TABLE IF EXIST " + TABELA;
+        //String sql = "ALTER TABLE " + TABELA + " ADD COLUMN caminhoFoto TEXT;";
         database.execSQL(sql);
         // Criando novamente a base.
         //OnCreate só é usado na criação da base de dados.
-        //onCreate(database);
+        onCreate(database);
     }
     /** Insert do Aluno*/
     public void insere(Aluno aluno) {
@@ -105,5 +106,17 @@ public class AlunoDAO extends SQLiteOpenHelper {
         String [] ags = { aluno.getId().toString()};
 
         getWritableDatabase().update(TABELA, values, "id=?",ags);
+    }
+
+    public boolean isAluno(String telefone) {
+
+        String[] parametros = {telefone};
+
+        Cursor rawQuery = getReadableDatabase().rawQuery("SELECT telefone FROM " +TABELA + " WHERE telefone = ?", parametros);
+
+        int total = rawQuery.getCount();
+        rawQuery.close();
+
+        return total > 0;
     }
 }

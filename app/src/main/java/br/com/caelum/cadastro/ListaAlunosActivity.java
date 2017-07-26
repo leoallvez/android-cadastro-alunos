@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import br.com.caelum.cadastro.adapter.ListaAlunoAdapter;
 import br.com.caelum.cadastro.dao.AlunoDAO;
 import br.com.caelum.cadastro.modelo.Aluno;
 
@@ -39,7 +40,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         List<Aluno> alunos = dao.getLista();
         dao.close();
 
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
+        ListaAlunoAdapter adapter = new ListaAlunoAdapter(this, alunos);
 
         this.listaAlunos.setAdapter(adapter);
     }
@@ -141,7 +142,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         });
 
         Intent fazerligacao = new Intent(Intent.ACTION_CALL);
-        //
+
         fazerligacao.setData(Uri.parse("tel:" + alunoSelecionado.getTelefone()));
 
         ligar.setIntent(fazerligacao);

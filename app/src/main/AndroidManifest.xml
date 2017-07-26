@@ -21,8 +21,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
+        <receiver android:name="br.com.caelum.cadastro.receiver.SMSReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS.RECEIVER"/>
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".FormularioActivity">
 
 
