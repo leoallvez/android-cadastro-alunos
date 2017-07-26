@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
@@ -196,5 +197,30 @@ public class ListaAlunosActivity extends AppCompatActivity {
         ligar.setData(Uri.parse("tel:"+ alunoSelecionado.getTelefone()));
         if(true)
             startActivity(ligar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_lista_alunos,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_enviar_nota: {
+                AlunoDAO dao = new AlunoDAO(this);
+                List<Aluno> alunos = dao.getLista();
+                dao.close();
+
+                String json = new AlunoConverte().toJson(alunos);
+                WebClient client = new WebClient();
+                String reposta = client.post(json);
+                Toast.makeText(this, reposta, Toast.LENGTH_LONG).show();
+                return true;
+
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
